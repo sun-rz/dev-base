@@ -1,3 +1,3 @@
 # concurrent_learn
-springboot+druid+mybatis ¶¯Ì¬Êı¾İÔ´ÇĞ»»
-²Î¿¼ https://www.jianshu.com/p/9e406b4d2de9
+springboot+druid+mybatis åŠ¨æ€æ•°æ®æºåˆ‡æ¢
+å‚è€ƒ https://www.jianshu.com/p/9e406b4d2de9

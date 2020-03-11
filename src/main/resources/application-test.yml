@@ -57,7 +57,17 @@ spring:
     mode: html5
     servlet:
       content-type: text/html
-
+  ## Freemarker 配置
+  #freemarker:
+    #  template-loader-path: classpath:/templates/
+    # cache: false
+    # charset: UTF-8
+    # check-template-location: true
+    # content-type: text/html
+    # expose-request-attributes: true
+    # expose-session-attributes: true
+    # request-context-attribute: request
+    # suffix: .ftl
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: dev.base.entity

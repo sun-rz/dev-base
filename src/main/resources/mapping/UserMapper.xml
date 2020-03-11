@@ -17,6 +17,6 @@
     </select>
 
     <insert id="register" parameterType="dev.base.entity.User">
-        INSERT INTO user (userName, passWord) VALUES (#{userName}, #{passWord})
+        INSERT INTO [user] (userName, passWord) VALUES (#{userName}, #{passWord})
     </insert>
 </mapper>

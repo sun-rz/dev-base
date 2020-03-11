@@ -19,6 +19,6 @@
     </settings>
     <!--数据库实体定义别名-->
     <typeAliases>
-        <typeAlias alias="user" type="dev.base.entity.User"/>
+        <package name="dev.base.entity.*"/>
     </typeAliases>
 </configuration>

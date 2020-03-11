@@ -1,5 +1,5 @@
 package dev.base.mapper;
- 
+
 import dev.base.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +12,5 @@ public interface UserMapper {
 
     User login(String userName, String passWord);
 
-    int register(User user);
+    int register(String userName, String passWord);
 }

@@ -1,5 +1,14 @@
 server:
   port: 80
+  http:
+    encoding:
+      charset: utf8
+    #文件上传限制
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  tomcat:
+    uri-encoding: UTF-8
 
 spring:
   datasource:

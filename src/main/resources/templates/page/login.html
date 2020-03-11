@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>登录页面</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/util.css" rel="stylesheet">
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/lib/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet">
+
+    <script src="/js/jquery-1.9.1.min.js"></script>
+    <script src="/js/vue.js"></script>
+    <script src="/js/axios.min.js"></script>
+    <script src="/js/common.js"></script>
+    <style>
+        body {
+            background: linear-gradient(to top, #c8e8f8, #2595f2);
+            background-attachment: fixed;
+            overflow: hidden;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+            }
+            100% {
+                transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+            }
+        }
+
+        .stars {
+            transform: perspective(500px);
+            transform-style: preserve-3d;
+            position: absolute;
+            bottom: 0;
+            perspective-origin: 50% 100%;
+            left: 50%;
+            animation: rotate 90s infinite linear;
+        }
+
+        .star {
+            width: 2px;
+            height: 2px;
+            background: #F7F7B6;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: 0 0 -300px;
+            transform: translate3d(0, 0, -300px);
+            backface-visibility: hidden;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div class="stars"></div>
+
+<script>
+    $(document).ready(function () {
+        var stars = 800;
+        var $stars = $(".stars");
+        var r = 800;
+        for (var i = 0; i < stars; i++) {
+            var $star = $("<div/>").addClass("star");
+            $stars.append($star);
+        }
+        $(".star").each(function () {
+            var cur = $(this);
+            var s = 0.2 + (Math.random() * 1);
+            var curR = r + (Math.random() * 300);
+            cur.css({
+                transformOrigin: "0 0 " + curR + "px",
+                transform: " translate3d(0,0,-" + curR + "px) rotateY(" + (Math.random() * 360) + "deg) rotateX(" + (Math.random() * -50) + "deg) scale(" + s + "," + s + ")"
+
+            })
+        })
+    })
+</script>
+<div class="limiter" id="app">
+    <div class="container-login">
+        <div class="wrap-login">
+            <form class="login-form validate-form">
+                <span class="login-form-title">登&nbsp;录</span>
+
+                <div class="wrap-input validate-input" data-validate="请输入用户名">
+                    <span class="label-input">用户名</span>
+                    <input class="input100" type="text" id="username" placeholder="请输入用户名" required autocomplete="on"
+                           v-model="username">
+                    <span class="focus-input100" data-symbol="&#xf007;"></span>
+                </div>
+
+                <div class="wrap-input validate-input" data-validate="请输入密码">
+                    <span class="label-input">密码</span>
+                    <input class="input100" type="password" id="password" placeholder="请输入密码" required autocomplete="on"
+                           v-model="password">
+                    <span class="focus-input100" data-symbol="&#xf023;"></span>
+                    <input type="hidden" id="action" :v-bind="action" v-model="action">
+                </div>
+
+                <div class="wrap-input validate-input" data-validate="请输入验证码">
+                    <span class="label-input">验证码</span>
+                    <input class="input100 captchacode-input" type="password" id="captchacode" placeholder="请输入验证码"
+                           autocomplete="off" required v-model="captchacode" maxlength="10">
+                    <span class="focus-input100 captchacode-symbol" data-symbol=""></span>
+                    <span class="captchacode-img"><img @click="getCaptcha" :src="captcha"></span>
+                </div>
+                <div class="text-right p-t-8 p-b-45">
+                    <a href="javascript:">忘记密码？</a>
+                </div>
+
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button type="button" :disabled="dis" class="login100-form-btn" @click="login">登&nbsp; 录
+                        </button>
+                    </div>
+                </div>
+
+                <!--
+                <div class="txt1 text-center p-t-54 p-b-20">
+                    <span>第三方登录</span>
+                </div>
+
+                <div class="flex-c-m">
+                    <a href="#" class="login100-social-item bg1">
+                        <i class="fa fa-wechat"></i>
+                    </a>
+
+                    <a href="#" class="login100-social-item bg2">
+                        <i class="fa fa-qq"></i>
+                    </a>
+
+                    <a href="#" class="login100-social-item bg3">
+                        <i class="fa fa-weibo"></i>
+                    </a>
+                </div>
+                -->
+
+                <div class="flex-col-c p-t-25">
+                    <a :href="register_url" class="txt2">立即注册</a>
+                </div>
+            </form>
+            <div class="show-msg"></div>
+        </div>
+    </div>
+</div>
+<script>
+    //初始化
+    new Vue({
+        el: "#app",
+        data: function () {
+            return {
+                username: '',
+                password: '',
+                captchacode: '',
+                captcha: '/captcha/captcha1',
+                action: 'login',
+                register_url: '/page/register.html',
+                dis: false
+            }
+        },
+        methods: {
+            //登录
+            login: function () {
+                this.dis = true;
+                if (this.username == '') {
+                    showMsg("请输入用户名");
+                    $("#username").focus();
+                    this.dis = false;
+                    return;
+                }
+                if (this.password == '') {
+                    showMsg("请输入密码");
+                    $("#password").focus();
+                    this.dis = false;
+                    return;
+                }
+
+                if (this.captchacode == '') {
+                    showMsg("请输入验证码");
+                    $("#captchacode").focus();
+                    this.dis = false;
+                    return;
+                }
+
+                const formData = {
+                    username: this.username,
+                    password: this.password,
+                    captchacode: this.captchacode,
+                    action: this.action
+                };
+
+                axios.post("/user/login", formData).then(
+                    res => {
+                        console.log(res.data)
+                        showMsg(res.data.msg, res.data.success, "/page/index.html");
+                        if (res.data.msg == "验证码错误") {
+                            this.getCaptcha();
+                            this.dis = false;
+                        }
+                    }
+                ).catch(
+                    err => {
+                        console.log(err)
+                    }
+                );
+            },
+            //切换验证码
+            getCaptcha: function () {
+                this.captcha = '/captcha/captcha1?d=' + Math.random();
+            }
+        }
+    })
+</script>
+</body>
+</html>
