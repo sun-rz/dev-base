@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class ApplicationRunnerConfig implements ApplicationRunner {
+public class ApplicationRunnerConfigurar implements ApplicationRunner {
 
     @Autowired
     private ReadXML readXML;

@@ -69,7 +69,3 @@ mybatis:
 #showSql
 logging:
   config: classpath:config/logback.xml
-  level:
-    dev:
-      base:
-        mapper: debug
