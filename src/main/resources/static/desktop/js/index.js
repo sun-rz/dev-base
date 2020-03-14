@@ -34,8 +34,8 @@
                 color: 32,
                 taskbarMode: 'bottom',
                 startSize: 'sm',
-                bgSrc: 'images/bg_01.jpg',
-                lockBgSrc: 'images/bg_04.jpg'
+                bgSrc: '/images/bg_01.jpg',
+                lockBgSrc: 'desktop/images/bg_04.jpg'
             },  //如果本地配置为空则给默认值
             desktop: {
                 options: {},    //可以为{}  默认 请求 json/desktopmenu.json
@@ -62,7 +62,7 @@
             },
             menu: {
                 options: {
-                    url: 'json/allmenu.json',
+                    url: '/desktop/json/allmenu.json',
                     method: 'get',
                     data: { nihaoa: '' }
                 },

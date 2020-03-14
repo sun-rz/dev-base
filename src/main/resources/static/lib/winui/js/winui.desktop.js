@@ -7,13 +7,12 @@
  */
 layui.define(['jquery', 'layer', 'winui'], function (exports) {
     "use strict";
-
     var $ = layui.jquery;
 
     //桌面构造函数
     var Desktop = function (options) {
         this.options = options || {
-            url: winui.path + 'json/desktopmenu.json',
+            url: '/desktop/json/desktopmenu.json',
             method: 'get'
         };
         this.data = null;
@@ -54,6 +53,7 @@ layui.define(['jquery', 'layer', 'winui'], function (exports) {
 
         if (!currOptions.url || !currOptions.method)
             return
+
         $.ajax({
             url: currOptions.url,
             type: currOptions.method,

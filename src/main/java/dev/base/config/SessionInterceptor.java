@@ -1,4 +1,4 @@
-package dev.base.intercetor;
+package dev.base.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -26,16 +26,18 @@ public class SessionInterceptor implements WebMvcConfigurer {
 
         List list=new ArrayList();
         list.add("/page/**");
+        list.add("/login.html");
+        list.add("/register.html");
         list.add("/captcha/**");
         list.add("/error");
         list.add("/user/login");
         list.add("/user/register");
+        list.add("/user/logout");
         list.add("/lib/**");
         list.add("/images/**");
         list.add("/js/**");
-        list.add("/json/**");
+        list.add("/desktop/**");
         list.add("/css/**");
-        list.add("/favicon.ico");
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns(list);
 
     }

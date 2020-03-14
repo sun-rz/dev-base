@@ -90,7 +90,7 @@
                 color: 31,
                 taskbarMode: 'bottom',
                 bgSrc: 'images/bg_01.jpg',
-                lockBgSrc: 'images/bg_01.jpg',
+                lockBgSrc: '/desktop/images/bg_01.jpg',
                 audioSrc: this.path + 'audio/236',
                 startSize: 'sm'
             }; //设置

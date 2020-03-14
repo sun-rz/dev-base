@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modules>
+    <module>
+        <module id="1" name="主题" title="主题" pageURL="theme" icon="fa-television" extend="false" maxOpen="-1"
+                openType="1" level="" isNecessary="" parentId="" order=""/>
+        <module id="4" name="基本说明" title="基本说明" pageURL="views/demo/introduce.html" icon="fa-info-circle" extend="false"
+                maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+        <module id="2" name="系统菜单" title="系统菜单" pageURL="views/menu/list_iframe.html" icon="fa-navicon" extend="false"
+                maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+        <module id="22" name="角色管理" title="角色管理" pageURL="views/role/list.html" icon="fa-th-large" extend="false"
+                maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+    </module>
+    <module>
+        <module id="1" name="主题" title="主题" pageURL="theme" icon="fa-television" extend="false" maxOpen="-1"
+                openType="1" level="" isNecessary="" parentId="" order=""/>
+        <module id="4" name="基本说明" title="基本说明" pageURL="views/demo/introduce.html" icon="fa-info-circle" extend="false"
+                maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+        <module id="23" name="系统设置" title="系统设置" pageURL="" icon="fa-cog" extend="false" openType="1">
+            <module id="2" name="系统菜单" title="系统菜单" pageURL="views/menu/list_iframe.html" icon="fa-navicon"
+                    extend="false" maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+            <module id="22" name="角色管理" title="角色管理" pageURL="views/role/list.html" icon="fa-th-large" extend="false"
+                    maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+        </module>
+    </module>
+    <module>
+        <module id="22" name="角色管理" title="角色管理" pageURL="views/role/list.html" icon="fa-th-large" extend="false"
+                maxOpen="-1" openType="2" level="" isNecessary="" parentId="" order=""/>
+    </module>
+</modules>

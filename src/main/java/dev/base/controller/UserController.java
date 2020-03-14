@@ -28,14 +28,14 @@ public class UserController {
     public String login(HttpServletRequest request) {
 
         String msg = "";
-        int refStatus = WebComm.validateReferURL(request,"/page/login.html");
+        int refStatus = WebComm.validateReferURL(request,"/login.html");
         if (refStatus < 2) {
             msg = WebComm.getReturnJSON("非法请求", false);
             return msg;
         }
 
         JSONObject object = WebComm.getRequestBodyJSON(request);
-        System.out.println(object);
+
         if (object.size() < 1) {
             msg = WebComm.getReturnJSON("参数错误", false);
             return msg;
@@ -81,14 +81,14 @@ public class UserController {
     public String register(HttpServletRequest request) {
 
         String msg = "";
-        int refStatus = WebComm.validateReferURL(request,"/page/register.html");
+        int refStatus = WebComm.validateReferURL(request,"/register.html");
         if (refStatus < 2) {
             msg = WebComm.getReturnJSON("非法请求", false);
             return msg;
         }
 
         JSONObject object = WebComm.getRequestBodyJSON(request);
-        System.out.println(object);
+
         if (object.size() < 1) {
             msg = WebComm.getReturnJSON("参数错误", false);
             return msg;
@@ -120,6 +120,7 @@ public class UserController {
                 msg = WebComm.getReturnJSON("用户名已存在", false);
                 return msg;
             }
+
             int result=userService.register(username,password);
 
             if(result>1){
@@ -137,10 +138,10 @@ public class UserController {
     }
 
     //退出登录
-    @RequestMapping("/outUser")
+    @RequestMapping("/logout")
     public void outUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().removeAttribute("session_user");
-        response.sendRedirect("/user/toIndex");
+        response.sendRedirect("/login.html");
     }
 
 }

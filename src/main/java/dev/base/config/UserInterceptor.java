@@ -1,6 +1,7 @@
-package dev.base.intercetor;
+package dev.base.config;
 
 import dev.base.entity.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class UserInterceptor implements HandlerInterceptor {
 
     /*
@@ -24,8 +26,8 @@ public class UserInterceptor implements HandlerInterceptor {
         //System.out.println(handler);
         User user = (User) request.getSession().getAttribute("session_user");
         if (user == null) {
-            response.sendRedirect(request.getContextPath() + "/page/login.html");//拦截后跳转的方法
-            System.out.println("已成功拦截:" + request.getRequestURL() + "并转发跳转");
+            response.sendRedirect(request.getContextPath() + "/login.html");//拦截后跳转的方法
+            log.info("已成功拦截:" + request.getRequestURL() + "，并跳转到登录");
             return false;
         }
         //System.out.println("合格不需要拦截，放行");

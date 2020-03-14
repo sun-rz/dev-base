@@ -90,22 +90,20 @@
 
                 <div class="wrap-input validate-input" data-validate="请输入用户名">
                     <span class="label-input">用户名</span>
-                    <input class="input100" type="text" id="username" placeholder="请输入用户名" required autocomplete="on"
-                           v-model="username">
+                    <input class="input100" type="text" id="username" placeholder="请输入用户名" required v-model="username">
                     <span class="focus-input100" data-symbol="&#xf007;"></span>
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="请输入密码">
                     <span class="label-input">密码</span>
-                    <input class="input100" type="password" id="password" placeholder="请输入密码" required autocomplete="on"
-                           v-model="password">
+                    <input class="input100" type="password" id="password" placeholder="请输入密码" required v-model="password">
                     <span class="focus-input100" data-symbol="&#xf023;"></span>
                     <input type="hidden" id="action" :v-bind="action" v-model="action">
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="请输入验证码">
                     <span class="label-input">验证码</span>
-                    <input class="input100 captchacode-input" type="password" id="captchacode" placeholder="请输入验证码"
+                    <input class="input100 captchacode-input" type="text" id="captchacode" placeholder="请输入验证码"
                            autocomplete="off" required v-model="captchacode" maxlength="10">
                     <span class="focus-input100 captchacode-symbol" data-symbol=""></span>
                     <span class="captchacode-img"><img @click="getCaptcha" :src="captcha"></span>
@@ -156,12 +154,12 @@
         el: "#app",
         data: function () {
             return {
-                username: '',
-                password: '',
+                username: 'zhi5@vip.qq.com',
+                password: '123456',
                 captchacode: '',
                 captcha: '/captcha/captcha1',
                 action: 'login',
-                register_url: '/page/register.html',
+                register_url: '/register.html',
                 dis: false
             }
         },
@@ -198,16 +196,16 @@
 
                 axios.post("/user/login", formData).then(
                     res => {
-                        console.log(res.data)
-                        showMsg(res.data.msg, res.data.success, "/page/index.html");
+                        showMsg(res.data.msg, res.data.success, "/");
                         if (res.data.msg == "验证码错误") {
                             this.getCaptcha();
-                            this.dis = false;
                         }
+                        this.dis = false;
                     }
                 ).catch(
                     err => {
-                        console.log(err)
+                        this.dis = false;
+                        console.log(err);
                     }
                 );
             },

@@ -112,7 +112,7 @@
 
                 <div class="wrap-input validate-input" data-validate="请输入验证码">
                     <span class="label-input">验证码</span>
-                    <input class="input100 captchacode-input" type="password" id="captchacode" placeholder="请输入验证码"
+                    <input class="input100 captchacode-input" type="text" id="captchacode" placeholder="请输入验证码"
                            autocomplete="off" required v-model="captchacode" maxlength="10">
                     <span class="focus-input100 captchacode-symbol" data-symbol=""></span>
                     <span class="captchacode-img"><img @click="getCaptcha" :src="captcha"></span>
@@ -148,7 +148,7 @@
                 confirm: '',
                 captcha: '/captcha/captcha1',
                 action: 'register',
-                login_url: "/page/login.html",
+                login_url: "/login.html",
                 dis: false
             }
         },
@@ -200,14 +200,15 @@
 
                 axios.post("/user/register", formData).then(
                     res => {
-                        showMsg(res.data.msg, res.data.success, "/page/login.html");
+                        showMsg(res.data.msg, res.data.success, "/login.html");
                         if (res.data.msg == "验证码错误") {
                             this.getCaptcha();
-                            this.dis = false;
                         }
+                        this.dis = false;
                     }
                 ).catch(
                     err => {
+                        this.dis = false;
                         console.log(err)
                     }
                 );

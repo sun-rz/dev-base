@@ -135,7 +135,7 @@ public class WebComm {
             }
             URL urlOne = new URL(referURL);
             String refererHostName = urlOne.getHost();
-            System.out.println(refererHostName);
+
             //获取当前页面的 路径，并通过路径获得本服务器host名
             String requestURL = request.getRequestURL().toString();
             URL urlTwo = new URL(requestURL);

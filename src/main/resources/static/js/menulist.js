@@ -1,6 +1,6 @@
 ﻿//@ sourceURL=menulist.js
 layui.config({
-    base: '../../lib/' //指定 winui 路径
+    base: '/lib/' //指定 winui 路径
     , version: '1.0.0-beta'
 }).extend({
     winui: 'winui/winui',

@@ -1,4 +1,4 @@
-package dev.base.intercetor;
+package dev.base.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;

@@ -11,6 +11,9 @@ server:
     uri-encoding: UTF-8
 
 spring:
+  resources:
+    static-locations: classpath:/static/, classpath:/templates/
+
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     loginName: admin
@@ -58,23 +61,15 @@ spring:
         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
         useGlobalDataSourceStat: true
 
-  thymeleaf:
-    cache: false
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: utf-8
-    mode: html5
-    servlet:
-      content-type: text/html
-
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: dev.base.entity
-  config-location: classpath:/mybatis-config.xml
+  config-location: classpath:config/mybatis-config.xml
 
 #showSql
 logging:
+  config: classpath:config/logback.xml
   level:
-    com:
-      example:
-        mapper : debug
+    dev:
+      base:
+        mapper: debug
