@@ -23,8 +23,8 @@ public class UserService {
     CommonEntityMapper commonEntityMapper;
 
     @Transactional
-    public List Sel(int id) {
-        return userMapper.Sel(id);
+    public User getUserInfo(int id) {
+        return userMapper.getUserInfo(id);
     }
 
     @Transactional

@@ -20,7 +20,7 @@ layui.define(['layer', 'winui'], function (exports) {
             , offset: 'auto'  //居中
             , min: true  //显示最小化按钮
             , max: true  //显示最大化按钮
-            , refresh: false    //显示刷新按钮
+            , refresh: true    //显示刷新按钮
         }
         this.minisizeAnim = ['anim-minisize0', 'anim-minisize1'];
     };
@@ -70,6 +70,7 @@ layui.define(['layer', 'winui'], function (exports) {
             },
             //打开回调
             success: function (layero, index) {
+                console.log(this.content)
                 common.setWindowBody(layero);
             },
             //关闭回调

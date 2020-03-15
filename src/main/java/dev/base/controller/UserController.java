@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class UserController {
     //登录操作
     @ResponseBody
     @RequestMapping("/login")
-    public String login(HttpServletRequest request) {
+    public String login(HttpServletRequest request,HttpServletResponse response) {
 
         String msg = "";
         int refStatus = WebComm.validateReferURL(request,"/login.html");
@@ -67,6 +68,13 @@ public class UserController {
                 return msg;
             } else {
                 request.getSession().setAttribute("session_user", user);//登录成功后将用户放入session中
+
+                // 存到cookie
+                Cookie cookie = new Cookie("username",username);
+                cookie.setMaxAge(30*24*60*60);//一月
+                cookie.setPath("/");
+                response.addCookie(cookie);
+
                 msg = WebComm.getReturnJSON("登录成功", true);
                 return msg;
             }
@@ -78,7 +86,7 @@ public class UserController {
     //注册操作
     @ResponseBody
     @RequestMapping("/register")
-    public String register(HttpServletRequest request) {
+    public String register(HttpServletRequest request,HttpServletResponse response) {
 
         String msg = "";
         int refStatus = WebComm.validateReferURL(request,"/register.html");
@@ -127,7 +135,11 @@ public class UserController {
                 msg = WebComm.getReturnJSON("注册失败，服务器异常", false);
                 return msg;
             }else{
-                request.setAttribute("username",username);
+                // 存到cookie
+                Cookie cookie = new Cookie("username",username);
+                cookie.setMaxAge(24*60*60);//一天
+                cookie.setPath("/");
+                response.addCookie(cookie);
                 msg = WebComm.getReturnJSON("注册成功", true);
                 return msg;
             }
@@ -142,6 +154,22 @@ public class UserController {
     public void outUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().removeAttribute("session_user");
         response.sendRedirect("/login.html");
+    }
+
+    //个人信息查询
+    @ResponseBody
+    @RequestMapping("/getUserInfo")
+    public String getUserInfo(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String msg="";
+        User user=(User)request.getSession().getAttribute("session_user");
+        if (WebComm.isBlank(user)){
+            msg = WebComm.getReturnJSON("查询失败，请重新登录", true);
+            return msg;
+        }
+
+        user=userService.getUserInfo(user.getId());
+        return user.toString();
     }
 
 }

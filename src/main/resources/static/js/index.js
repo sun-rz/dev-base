@@ -21,29 +21,13 @@
             }
         });
 
-/*        winui.window.open({
-            id: '公告',
-            type: 1,
-            title: '演示公告',
-            content: '<p style="padding:20px;">半成品仅供参观，多数设置本地存储，清除浏览器缓存即失效。<br/><br/>慢工出细活，如有需要的朋友请耐心等待。<br/><br/>望社区案例多多点赞，谢谢各位！<br/><br/>特色很多，如：<span style="color:#FF5722">桌面助手，主题设置</span>，大家慢慢参观</p>',
-            area: ['400px', '400px']
-        });*/
-
-        //右键桌面菜单
-        $('.winui-desktop').contextmenu(function (e) {
-            e.preventDefault() // 阻止右键菜单默认行为
-          /*  console.log('this' + this)
-            console.log('e' + e)
-            console.log('e.target' + e.target)*/
-            var left = e.clientX;
-            var top = e.clientY;
-            var div = '<ul class="app-contextmenu" style="top:' + top + 'px;left:' + left + 'px;">';
-                div += '<li>刷新</li>';
-            div += '</ul>';
-
-            $('body').append(div);
-        });
-
+        /*        winui.window.open({
+                    id: '公告',
+                    type: 1,
+                    title: '演示公告',
+                    content: '<p style="padding:20px;">半成品仅供参观，多数设置本地存储，清除浏览器缓存即失效。<br/><br/>慢工出细活，如有需要的朋友请耐心等待。<br/><br/>望社区案例多多点赞，谢谢各位！<br/><br/>特色很多，如：<span style="color:#FF5722">桌面助手，主题设置</span>，大家慢慢参观</p>',
+                    area: ['400px', '400px']
+                });*/
 
         winui.config({
             settings: layui.data('winui').settings || {
@@ -60,18 +44,19 @@
                         OpenWindow(elem);
                     });
                     desktopApp.contextmenu({
-                        item: ["打开", "删除", '右键菜单可自定义'],
+                        item: ["打开", "刷新","删除"],
                         item1: function (id, elem) {
                             OpenWindow(elem);
                         },
                         item2: function (id, elem, events) {
+                            winui.window.msg('刷新回调');
+                            location.reload();
+                        },
+                        item3: function (id, elem, events) {
                             winui.window.msg('删除回调');
                             $(elem).remove();
                             //从新排列桌面app
                             events.reLocaApp();
-                        },
-                        item3: function (id, elem, events) {
-                            winui.window.msg('自定义回调');
                         }
                     });
                 }
@@ -125,9 +110,25 @@
         OpenWindow(this);
     });
 
-    //开始菜单左侧主题按钮点击
-    $('.winui-start-item.winui-start-individuation').on('click', function () {
-        winui.window.openTheme();
+    //开始菜单左侧按钮点击
+    $('.winui-start-item').on('click', function () {
+        let url = $(this).attr("win-url");
+        switch (url) {
+            case 'theme':
+                winui.window.openTheme();
+                break;
+            case 'logout':
+                winui.hideStartMenu();
+                winui.window.confirm('确认注销吗?', {icon: 3, title: '提示'}, function (index) {
+                    winui.window.msg('执行注销操作，返回登录界面');
+                    layer.close(index);
+                    location.href = '/user/logout';
+                });
+                break;
+            default :
+                OpenWindow(this);
+                break;
+        }
     });
 
     //打开窗口的方法（可自己根据需求来写）
@@ -203,17 +204,6 @@
             //, refresh:true
         });
     }
-
-    //注销登录
-    $('.logout').on('click', function () {
-        winui.hideStartMenu();
-        winui.window.confirm('确认注销吗?', {icon: 3, title: '提示'}, function (index) {
-            winui.window.msg('执行注销操作，返回登录界面');
-            layer.close(index);
-            location.href = '/user/logout';
-        });
-    });
-
 
     // 判断是否显示锁屏（这个要放在最后执行）
     if (window.localStorage.getItem("lockscreen") == "true") {

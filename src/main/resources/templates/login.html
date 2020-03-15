@@ -85,7 +85,7 @@
 <div class="limiter" id="app">
     <div class="container-login">
         <div class="wrap-login">
-            <form class="login-form validate-form">
+            <form class="login-form validate-form" method="post">
                 <span class="login-form-title">登&nbsp;录</span>
 
                 <div class="wrap-input validate-input" data-validate="请输入用户名">
@@ -96,7 +96,8 @@
 
                 <div class="wrap-input validate-input" data-validate="请输入密码">
                     <span class="label-input">密码</span>
-                    <input class="input100" type="password" id="password" placeholder="请输入密码" required v-model="password">
+                    <input class="input100" type="password" id="password" placeholder="请输入密码" required
+                           v-model="password">
                     <span class="focus-input100" data-symbol="&#xf023;"></span>
                     <input type="hidden" id="action" :v-bind="action" v-model="action">
                 </div>
@@ -111,7 +112,6 @@
                 <div class="text-right p-t-8 p-b-45">
                     <a href="javascript:">忘记密码？</a>
                 </div>
-
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
@@ -154,8 +154,8 @@
         el: "#app",
         data: function () {
             return {
-                username: 'zhi5@vip.qq.com',
-                password: '123456',
+                username: '',
+                password: '',
                 captchacode: '',
                 captcha: '/captcha/captcha1',
                 action: 'login',
@@ -163,26 +163,37 @@
                 dis: false
             }
         },
+        mounted: function () {
+            if (self != top) {
+                //判断是否在iframe中
+                parent.window.location = "/login.html";
+                return;
+            }
+            let username = this.getCookie("username");
+            this.username = username;
+        },
         methods: {
             //登录
             login: function () {
                 this.dis = true;
+
                 if (this.username == '') {
                     showMsg("请输入用户名");
-                    $("#username").focus();
+                    document.querySelector('#username').focus();
                     this.dis = false;
                     return;
                 }
+
                 if (this.password == '') {
                     showMsg("请输入密码");
-                    $("#password").focus();
+                    document.querySelector('#password').focus();
                     this.dis = false;
                     return;
                 }
 
                 if (this.captchacode == '') {
                     showMsg("请输入验证码");
-                    $("#captchacode").focus();
+                    document.querySelector('#captchacode').focus();
                     this.dis = false;
                     return;
                 }
@@ -196,11 +207,11 @@
 
                 axios.post("/user/login", formData).then(
                     res => {
+                        this.dis = false;
                         showMsg(res.data.msg, res.data.success, "/");
                         if (res.data.msg == "验证码错误") {
                             this.getCaptcha();
                         }
-                        this.dis = false;
                     }
                 ).catch(
                     err => {
@@ -212,6 +223,20 @@
             //切换验证码
             getCaptcha: function () {
                 this.captcha = '/captcha/captcha1?d=' + Math.random();
+            },
+            //获取cookie
+            getCookie: function (cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    //console.log(c)
+                    while (c.charAt(0) == ' ') c = c.substring(1);
+                    if (c.indexOf(name) != -1) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
             }
         }
     })

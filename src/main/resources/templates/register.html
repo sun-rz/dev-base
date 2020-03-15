@@ -85,7 +85,7 @@
 <div class="limiter" id="app">
     <div class="container-login">
         <div class="wrap-login">
-            <form class="login-form validate-form">
+            <form class="login-form validate-form" method="post">
                 <span class="login-form-title">注&nbsp;册</span>
 
                 <div class="wrap-input validate-input" data-validate="请输入用户名">
@@ -159,34 +159,34 @@
 
                 if (this.username == '') {
                     showMsg("请输入用户名");
-                    $("#username").focus();
+                    document.querySelector('#username').focus();
                     this.dis = false;
                     return;
                 }
                 if (this.password == '') {
                     showMsg("请输入密码");
-                    $("#password").focus();
+                    document.querySelector('#password').focus();
                     this.dis = false;
                     return;
                 }
 
                 if (this.confirm == '') {
                     showMsg("请再次输入密码");
-                    $("#confirm").focus();
+                    document.querySelector('#confirm').focus();
                     this.dis = false;
                     return;
                 }
 
                 if (this.password != this.confirm) {
                     showMsg("两次输入密码不一致");
-                    $("#confirm").focus();
+                    document.querySelector('#confirm').focus();
                     this.dis = false;
                     return;
                 }
 
                 if (this.captchacode == '') {
                     showMsg("请输入验证码");
-                    $("#captchacode").focus();
+                    document.querySelector('#captchacode').focus();
                     this.dis = false;
                     return;
                 }

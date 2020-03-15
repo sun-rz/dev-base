@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface UserMapper {
 
-    List Sel(int id);
+    User getUserInfo(int id);
 
     User login(String userName, String passWord);
 

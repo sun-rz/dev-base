@@ -38,6 +38,7 @@ public class SessionInterceptor implements WebMvcConfigurer {
         list.add("/js/**");
         list.add("/desktop/**");
         list.add("/css/**");
+        list.add("/favicon.ico");
         registry.addInterceptor(loginInterceptor).addPathPatterns("/**").excludePathPatterns(list);
 
     }
