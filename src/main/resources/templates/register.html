@@ -77,7 +77,6 @@
             cur.css({
                 transformOrigin: "0 0 " + curR + "px",
                 transform: " translate3d(0,0,-" + curR + "px) rotateY(" + (Math.random() * 360) + "deg) rotateX(" + (Math.random() * -50) + "deg) scale(" + s + "," + s + ")"
-
             })
         })
     })
@@ -85,35 +84,35 @@
 <div class="limiter" id="app">
     <div class="container-login">
         <div class="wrap-login">
-            <form class="login-form validate-form" method="post">
+            <form class="login-form validate-form" @submit.prevent="register">
                 <span class="login-form-title">注&nbsp;册</span>
 
                 <div class="wrap-input validate-input" data-validate="请输入用户名">
                     <span class="label-input">用户名</span>
                     <input class="input100" type="text" id="username" placeholder="请输入用户名" required autocomplete="on"
-                           v-model="username">
+                           v-model="formData.username">
                     <span class="focus-input100" data-symbol="&#xf007;"></span>
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="请输入密码">
                     <span class="label-input">密码</span>
                     <input class="input100" type="password" id="password" placeholder="请输入密码" required autocomplete="on"
-                           v-model="password">
+                           v-model="formData.password">
                     <span class="focus-input100" data-symbol="&#xf023;"></span>
-                    <input type="hidden" id="action" :v-bind="action" v-model="action">
+                    <input type="hidden" id="action" :v-bind="formData.action" v-model="formData.action">
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="确认密码">
                     <span class="label-input">确认密码</span>
                     <input class="input100" type="password" id="confirm" placeholder="确认密码" required autocomplete="on"
-                           v-model="confirm">
+                           v-model="formData.confirm">
                     <span class="focus-input100" data-symbol="&#xf023;"></span>
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="请输入验证码">
                     <span class="label-input">验证码</span>
                     <input class="input100 captchacode-input" type="text" id="captchacode" placeholder="请输入验证码"
-                           autocomplete="off" required v-model="captchacode" maxlength="10">
+                           autocomplete="off" required v-model="formData.captchacode" maxlength="10">
                     <span class="focus-input100 captchacode-symbol" data-symbol=""></span>
                     <span class="captchacode-img"><img @click="getCaptcha" :src="captcha"></span>
                 </div>
@@ -123,8 +122,7 @@
                 <div class="container-login100-form-btn">
                     <div class="wrap-login100-form-btn">
                         <div class="login100-form-bgbtn"></div>
-                        <button type="button" :disabled="dis" class="login100-form-btn" @click="register">注&nbsp; 册
-                        </button>
+                        <button type="submit" :disabled="dis" class="login100-form-btn">注&nbsp; 册</button>
                     </div>
                 </div>
 
@@ -142,12 +140,14 @@
         el: "#app",
         data: function () {
             return {
-                username: '',
-                password: '',
-                captchacode: '',
-                confirm: '',
+                formData: {
+                    username: '',
+                    password: '',
+                    captchacode: '',
+                    confirm: '',
+                    action: 'register'
+                },
                 captcha: '/captcha/captcha1',
-                action: 'register',
                 login_url: "/login.html",
                 dis: false
             }
@@ -157,48 +157,41 @@
             register: function () {
                 this.dis = true;
 
-                if (this.username == '') {
+                if (this.formData.username == '') {
                     showMsg("请输入用户名");
                     document.querySelector('#username').focus();
                     this.dis = false;
                     return;
                 }
-                if (this.password == '') {
+                if (this.formData.password == '') {
                     showMsg("请输入密码");
                     document.querySelector('#password').focus();
                     this.dis = false;
                     return;
                 }
 
-                if (this.confirm == '') {
+                if (this.formData.confirm == '') {
                     showMsg("请再次输入密码");
                     document.querySelector('#confirm').focus();
                     this.dis = false;
                     return;
                 }
 
-                if (this.password != this.confirm) {
+                if (this.formData.password != this.formData.confirm) {
                     showMsg("两次输入密码不一致");
                     document.querySelector('#confirm').focus();
                     this.dis = false;
                     return;
                 }
 
-                if (this.captchacode == '') {
+                if (this.formData.captchacode == '') {
                     showMsg("请输入验证码");
                     document.querySelector('#captchacode').focus();
                     this.dis = false;
                     return;
                 }
 
-                const formData = {
-                    username: this.username,
-                    password: this.password,
-                    captchacode: this.captchacode,
-                    action: this.action
-                };
-
-                axios.post("/user/register", formData).then(
+                axios.post("/user/register", this.formData).then(
                     res => {
                         showMsg(res.data.msg, res.data.success, "/login.html");
                         if (res.data.msg == "验证码错误") {
